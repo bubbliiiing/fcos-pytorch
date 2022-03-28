@@ -15,9 +15,6 @@ from utils.utils import cvtColor, get_classes, preprocess_input, resize_image
 from utils.utils_bbox import DecodeBox
 
 
-def pre_process(image, mean, std):
-    image = (image/255 - mean)/std
-    return image
 #--------------------------------------------#
 #   使用自己训练好的模型预测需要修改2个参数
 #   model_path和classes_path都需要修改！
