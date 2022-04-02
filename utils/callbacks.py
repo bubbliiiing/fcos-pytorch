@@ -18,11 +18,11 @@ class LossHistory():
         
         os.makedirs(self.log_dir)
         self.writer     = SummaryWriter(self.log_dir)
-        try:
-            dummy_input     = torch.randn(2, 3, input_shape[0], input_shape[1])
-            self.writer.add_graph(model, dummy_input)
-        except:
-            pass
+        # try:
+        #     dummy_input     = torch.randn(2, 3, input_shape[0], input_shape[1])
+        #     self.writer.add_graph(model, dummy_input)
+        # except:
+        #     pass
 
 
     def append_loss(self, epoch, loss, val_loss):

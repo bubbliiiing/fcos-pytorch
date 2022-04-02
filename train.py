@@ -269,8 +269,8 @@ if __name__ == "__main__":
         if epoch_step == 0 or epoch_step_val == 0:
             raise ValueError("数据集过小，无法继续进行训练，请扩充数据集。")
 
-        train_dataset   = FcosDataset(train_lines, (input_shape[0], input_shape[1]))
-        val_dataset     = FcosDataset(val_lines, (input_shape[0], input_shape[1]))
+        train_dataset   = FcosDataset(train_lines, input_shape, train = True)
+        val_dataset     = FcosDataset(val_lines, input_shape, train = False)
         gen     = DataLoader(train_dataset, shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
                                     drop_last=True, collate_fn=fcos_dataset_collate)
         gen_val = DataLoader(val_dataset  , shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
