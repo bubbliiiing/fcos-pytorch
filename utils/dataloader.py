@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import torch
 from PIL import Image
 from torch.utils.data.dataset import Dataset
 
@@ -160,8 +161,8 @@ def fcos_dataset_collate(batch):
         images.append(img)
         bboxes.append(box)
         classes.append(classe)
-    images  = np.array(images)
-    bboxes  = np.array(bboxes)
-    classes = np.array(classes)
+    images  = torch.from_numpy(np.array(images)).type(torch.FloatTensor)
+    bboxes  = torch.from_numpy(np.array(bboxes)).type(torch.FloatTensor)
+    classes = torch.from_numpy(np.array(classes)).type(torch.LongTensor)
     return images, bboxes, classes
 

@@ -96,7 +96,7 @@ _defaults = {
     #   验证集损失较低不代表mAP较高，仅代表该权值在验证集上泛化性能较好。
     #   如果出现shape不匹配，同时要注意训练时的model_path和classes_path参数的修改
     #--------------------------------------------------------------------------#
-    "model_path"        : 'model_data/Fcos_weights_voc.pth',
+    "model_path"        : 'model_data/fcos_weights_voc.pth',
     "classes_path"      : 'model_data/voc_classes.txt',
     #---------------------------------------------------------------------#
     #   输入图片的大小
@@ -141,6 +141,6 @@ img/street.jpg
 5. 运行get_map.py即可获得评估结果，评估结果会保存在map_out文件夹中。
 
 ## Reference
-https://github.com/qqwweee/keras-yolo3  
-https://github.com/eriklindernoren/PyTorch-YOLOv3   
-https://github.com/BobLiu20/YOLOv3_PyTorch
+https://github.com/qqwweee/keras-yolo3   
+https://github.com/tianzhi0549/FCOS    
+https://github.com/zhenghao977/FCOS-PyTorch-37.2AP
