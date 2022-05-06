@@ -16,7 +16,7 @@ from nets.fcos import FCOS
 from nets.fcos_training import Fcos_Loss, get_lr_scheduler, set_optimizer_lr
 from utils.callbacks import LossHistory
 from utils.dataloader import FcosDataset, fcos_dataset_collate
-from utils.utils import get_classes, show_config
+from utils.utils import get_classes, show_config, download_weights
 from utils.utils_fit import fit_one_epoch
 
 if __name__ == "__main__":
@@ -211,6 +211,17 @@ if __name__ == "__main__":
     else:
         device          = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         local_rank      = 0
+
+    #----------------------------------------------------#
+    #   下载预训练权重
+    #----------------------------------------------------#
+    if pretrained:
+        if distributed:
+            if local_rank == 0:
+                download_weights("resnet50")  
+            dist.barrier()
+        else:
+            download_weights("resnet50")  
 
     #----------------------------------------------------#
     #   获取classes

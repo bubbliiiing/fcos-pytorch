@@ -63,3 +63,16 @@ def show_config(**kwargs):
     for key, value in kwargs.items():
         print('|%25s | %40s|' % (str(key), str(value)))
     print('-' * 70)
+
+def download_weights(backbone, model_dir="./model_data"):
+    import os
+    from torch.hub import load_state_dict_from_url
+    
+    download_urls = {
+        'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
+    }
+    url = download_urls[backbone]
+    
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+    load_state_dict_from_url(url, model_dir)
