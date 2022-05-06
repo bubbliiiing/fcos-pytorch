@@ -92,7 +92,7 @@ def fit_one_epoch(model_train, model, fcos_loss, loss_history, optimizer, epoch,
     if local_rank == 0:
         pbar.close()
         print('Finish Validation')
-        loss_history.append_loss(epoch + 1, loss / epoch_step, val_loss / epoch_step_val)
+        loss_history.append_loss(epoch + 1, total_loss / epoch_step, val_loss / epoch_step_val)
         print('Epoch:'+ str(epoch+1) + '/' + str(Epoch))
         print('Total Loss: %.3f || Val Loss: %.3f ' % (total_loss / epoch_step, val_loss / epoch_step_val))
         
