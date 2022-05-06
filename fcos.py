@@ -11,7 +11,8 @@ import torch.nn as nn
 from PIL import ImageDraw, ImageFont
 
 from nets.fcos import FCOS
-from utils.utils import cvtColor, get_classes, preprocess_input, resize_image
+from utils.utils import (cvtColor, get_classes, preprocess_input, resize_image,
+                         show_config)
 from utils.utils_bbox import DecodeBox
 
 
@@ -86,11 +87,13 @@ class Fcos(object):
         self.colors = list(map(lambda x: (int(x[0] * 255), int(x[1] * 255), int(x[2] * 255)), self.colors))
 
         self.generate()
+        
+        show_config(**self._defaults)
 
     #---------------------------------------------------#
     #   获得所有的分类
     #---------------------------------------------------#
-    def generate(self):
+    def generate(self, onnx=False):
         #----------------------------------------#
         #   创建FCOS模型
         #----------------------------------------#
@@ -100,10 +103,10 @@ class Fcos(object):
         self.net.load_state_dict(torch.load(self.model_path, map_location=device))
         self.net    = self.net.eval()
         print('{} model, anchors, and classes loaded.'.format(self.model_path))
-
-        if self.cuda:
-            self.net = nn.DataParallel(self.net)
-            self.net = self.net.cuda()
+        if not onnx:
+            if self.cuda:
+                self.net = nn.DataParallel(self.net)
+                self.net = self.net.cuda()
 
     #---------------------------------------------------#
     #   检测图片
@@ -254,6 +257,44 @@ class Fcos(object):
         t2 = time.time()
         tact_time = (t2 - t1) / test_interval
         return tact_time
+
+    def convert_to_onnx(self, simplify, model_path):
+        import onnx
+        self.generate(onnx=True)
+
+        im                  = torch.zeros(1, 3, *self.input_shape).to('cpu')  # image size(1, 3, 512, 512) BCHW
+        input_layer_names   = ["images"]
+        output_layer_names  = ["output"]
+        
+        # Export the model
+        print(f'Starting export with onnx {onnx.__version__}.')
+        torch.onnx.export(self.net,
+                        im,
+                        f               = model_path,
+                        verbose         = False,
+                        opset_version   = 12,
+                        training        = torch.onnx.TrainingMode.EVAL,
+                        do_constant_folding = True,
+                        input_names     = input_layer_names,
+                        output_names    = output_layer_names,
+                        dynamic_axes    = None)
+
+        # Checks
+        model_onnx = onnx.load(model_path)  # load onnx model
+        onnx.checker.check_model(model_onnx)  # check onnx model
+
+        # Simplify onnx
+        if simplify:
+            import onnxsim
+            print(f'Simplifying with onnx-simplifier {onnxsim.__version__}.')
+            model_onnx, check = onnxsim.simplify(
+                model_onnx,
+                dynamic_input_shape=False,
+                input_shapes=None)
+            assert check, 'assert check failed'
+            onnx.save(model_onnx, model_path)
+
+        print('Onnx model save as {}'.format(model_path))
 
     def get_map_txt(self, image_id, image, class_names, map_out_path):
         f = open(os.path.join(map_out_path, "detection-results/"+image_id+".txt"),"w") 

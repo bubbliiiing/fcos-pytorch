@@ -18,6 +18,7 @@ if __name__ == "__main__":
     #   'video'             表示视频检测，可调用摄像头或者视频进行检测，详情查看下方注释。
     #   'fps'               表示测试fps，使用的图片是img里面的street.jpg，详情查看下方注释。
     #   'dir_predict'       表示遍历文件夹进行检测并保存。默认遍历img文件夹，保存img_out文件夹，详情查看下方注释。
+    #   'export_onnx'       表示将模型导出为onnx，需要pytorch1.7.1以上。
     #----------------------------------------------------------------------------------------------------------#
     mode = "predict"
     #-------------------------------------------------------------------------#
@@ -56,6 +57,12 @@ if __name__ == "__main__":
     #-------------------------------------------------------------------------#
     dir_origin_path = "img/"
     dir_save_path   = "img_out/"
+    #-------------------------------------------------------------------------#
+    #   simplify            使用Simplify onnx
+    #   onnx_save_path      指定了onnx的保存路径
+    #-------------------------------------------------------------------------#
+    simplify        = True
+    onnx_save_path  = "model_data/models.onnx"
 
     if mode == "predict":
         '''
@@ -144,6 +151,9 @@ if __name__ == "__main__":
                 if not os.path.exists(dir_save_path):
                     os.makedirs(dir_save_path)
                 r_image.save(os.path.join(dir_save_path, img_name.replace(".jpg", ".png")), quality=95, subsampling=0)
-       
+                
+    elif mode == "export_onnx":
+        fcos.convert_to_onnx(simplify, onnx_save_path)
+
     else:
         raise AssertionError("Please specify the correct mode: 'predict', 'video', 'fps' or 'dir_predict'.")
