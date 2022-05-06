@@ -19,9 +19,9 @@ def fit_one_epoch(model_train, model, fcos_loss, loss_history, optimizer, epoch,
         images, bboxes, classes = batch[0], batch[1],  batch[2]
         with torch.no_grad():
             if cuda:
-                images  = images.cuda()
-                bboxes  = bboxes.cuda()
-                classes = classes.cuda()
+                images  = images.cuda(local_rank)
+                bboxes  = bboxes.cuda(local_rank)
+                classes = classes.cuda(local_rank)
         #----------------------#
         #   清零梯度
         #----------------------#
@@ -77,9 +77,9 @@ def fit_one_epoch(model_train, model, fcos_loss, loss_history, optimizer, epoch,
         images, bboxes, classes = batch[0], batch[1],  batch[2]
         with torch.no_grad():
             if cuda:
-                images  = images.cuda()
-                bboxes  = bboxes.cuda()
-                classes = classes.cuda()
+                images  = images.cuda(local_rank)
+                bboxes  = bboxes.cuda(local_rank)
+                classes = classes.cuda(local_rank)
                 
             optimizer.zero_grad()
             outputs     = model_train(images)

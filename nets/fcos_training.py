@@ -64,8 +64,7 @@ class Fcos_Loss(nn.Module):
             #   获得网格
             #-----------------------#
             grids       = self._get_grids(cls_logit, stride)
-            if cls_logit.is_cuda:
-                grids = grids.cuda()
+            grids       = grids.type_as(cls_logit)
             x           = grids[:, 0]
             y           = grids[:, 1]
                 
