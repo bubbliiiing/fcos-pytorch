@@ -407,9 +407,9 @@ if __name__ == "__main__":
             val_sampler     = None
             shuffle         = True
 
-        gen     = DataLoader(train_dataset, shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
+        gen     = DataLoader(train_dataset, shuffle = shuffle, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
                                     drop_last=True, collate_fn=fcos_dataset_collate, sampler=train_sampler)
-        gen_val = DataLoader(val_dataset  , shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
+        gen_val = DataLoader(val_dataset  , shuffle = shuffle, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
                                     drop_last=True, collate_fn=fcos_dataset_collate, sampler=val_sampler)
                      
         #---------------------------------------#
@@ -445,9 +445,9 @@ if __name__ == "__main__":
                 if epoch_step == 0 or epoch_step_val == 0:
                     raise ValueError("数据集过小，无法继续进行训练，请扩充数据集。")
 
-                gen     = DataLoader(train_dataset, shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
+                gen     = DataLoader(train_dataset, shuffle = shuffle, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
                                             drop_last=True, collate_fn=fcos_dataset_collate)
-                gen_val = DataLoader(val_dataset  , shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
+                gen_val = DataLoader(val_dataset  , shuffle = shuffle, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
                                             drop_last=True, collate_fn=fcos_dataset_collate)
 
                 UnFreeze_flag = True
