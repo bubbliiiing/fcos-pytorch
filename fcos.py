@@ -73,6 +73,8 @@ class Fcos(object):
         self.__dict__.update(self._defaults)
         for name, value in kwargs.items():
             setattr(self, name, value)
+            self._defaults[name] = value 
+            
         #---------------------------------------------------#
         #   计算总的类的数量
         #---------------------------------------------------#
