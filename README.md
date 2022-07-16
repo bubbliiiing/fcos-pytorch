@@ -1,4 +1,4 @@
-## FCOS目标检测模型在pytorch当中的实现
+## FCOS-Fully Convolutional One-Stage Object Detector目标检测模型在pytorch当中的实现
 ---
 
 ## 目录
@@ -12,19 +12,19 @@
 8. [参考资料 Reference](#Reference)
 
 ## Top News
-**`2022-04`**:**仓库创建，大量可调整参数、支持step、cos学习率下降法、支持adam、sgd优化器选择、支持学习率根据batch_size自适应调整、新增图片裁剪。**  
+**`2022-07`**:**仓库创建，大量可调整参数、支持step、cos学习率下降法、支持adam、sgd优化器选择、支持学习率根据batch_size自适应调整、新增图片裁剪。**  
 
 ## 性能情况
 | 训练数据集 | 权值文件名称 | 测试数据集 | 输入图片大小 | mAP 0.5:0.95 | mAP 0.5 |
 | :-----: | :-----: | :------: | :------: | :------: | :-----: |
-| VOC07+12 | [fcos_weights_voc.pth](https://github.com/bubbliiiing/fcos-pytorch/releases/download/v1.0/fcos_weights_voc.pth) | VOC-Test07 | 640x640 | - | 81.56 
+| VOC07+12 | [fcos_weights_voc.pth](https://github.com/bubbliiiing/fcos-pytorch/releases/download/v1.0/fcos_weights_voc.pth) | VOC-Test07 | 640x640 | - | 83.54 
 
 ## 所需环境
 torch>=1.2.0
 
 ## 文件下载
-链接: https://pan.baidu.com/s/1N5TyQTWDeVsN5h9v-ucpbg    
-提取码: q42w   
+链接: https://pan.baidu.com/s/1ayz_jg8Sxc_c0zMpWOL0kQ    
+提取码: 2e73    
 
 VOC数据集下载地址如下，里面已经包括了训练集、测试集、验证集（与测试集一样），无需再次划分：  
 链接: https://pan.baidu.com/s/19Mw2u_df_nBzsC2lg20fQA    

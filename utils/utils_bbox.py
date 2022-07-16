@@ -1,14 +1,5 @@
-import math
-import os
-import time
-
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from PIL import Image, ImageDraw, ImageFont
-from torch.autograd import Variable
 from torchvision.ops import nms
 
 
