@@ -119,7 +119,7 @@ class EvalCallback():
         #   给图像增加灰条，实现不失真的resize
         #   也可以直接resize进行识别
         #---------------------------------------------------------#
-        image_data  = resize_image(image, (self.input_shape[1], self.input_shape[0]), self.letterbox_image)
+        image_data  = resize_image(image, (self.input_shape[1],self.input_shape[0]), self.letterbox_image)
         #---------------------------------------------------------#
         #   添加上batch_size维度
         #---------------------------------------------------------#
@@ -133,18 +133,18 @@ class EvalCallback():
             #   将图像输入网络当中进行预测！
             #---------------------------------------------------------#
             outputs = self.net(images)
-            outputs = self.bbox_util.decode_box(outputs)
+            outputs = self.bbox_util.decode_box(outputs, self.input_shape)
             #---------------------------------------------------------#
             #   将预测框进行堆叠，然后进行非极大抑制
             #---------------------------------------------------------#
-            results = self.bbox_util.non_max_suppression(torch.cat(outputs, 1), self.num_classes, self.input_shape, 
+            results = self.bbox_util.non_max_suppression(outputs, self.input_shape, 
                         image_shape, self.letterbox_image, conf_thres = self.confidence, nms_thres = self.nms_iou)
-                                                    
+                               
             if results[0] is None: 
                 return 
 
-            top_label   = np.array(results[0][:, 6], dtype = 'int32')
-            top_conf    = results[0][:, 4] * results[0][:, 5]
+            top_label   = np.array(results[0][:, 5], dtype = 'int32')
+            top_conf    = results[0][:, 4]
             top_boxes   = results[0][:, :4]
 
         top_100     = np.argsort(top_conf)[::-1][:self.max_boxes]
